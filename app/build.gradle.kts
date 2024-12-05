@@ -42,15 +42,15 @@ android {
 
 dependencies {
     // Viewmodel
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
     //Mapa
     implementation(libs.osmdroid.android)
-    implementation(libs.osmdroid.compose)
+    implementation(libs.osm.android.compose)
     // Room
-    ksp("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
