@@ -8,7 +8,7 @@ import androidx.room.Relation
 data class GrupoMarcador(
     @Embedded val marcador: Marcador,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "grupoid",
         entityColumn = "idGrupo"
     )
     val grupoMarcadores: List<Grupo>

@@ -8,8 +8,8 @@ data class Marcador(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val titulo: String,
-    val sniped: String,
     val coordenadaY: Double,
     val coordenadaX: Double,
+    val grupoid: Int,
     val isCompleted: Boolean = false
 )
