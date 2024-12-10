@@ -54,7 +54,7 @@ abstract class AppDatabase : RoomDatabase() {
                     coordenadaX = 28.99862964321656,
                     coordenadaY =  -13.48812776095318,
                     grupoid = 2
-                ) ,
+                ),
                 Marcador(
                     titulo = "Playa Bastián",
                     coordenadaX = 28.992986562609968,
