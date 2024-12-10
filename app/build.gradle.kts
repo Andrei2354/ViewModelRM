@@ -45,6 +45,7 @@ dependencies {
     //Mapa
     implementation(libs.osmdroid.android)
     implementation(libs.osm.android.compose)
+    implementation(libs.androidx.navigation.compose)
     // Room
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
