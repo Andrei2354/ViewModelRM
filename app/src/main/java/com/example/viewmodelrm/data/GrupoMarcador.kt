@@ -6,10 +6,10 @@ import androidx.room.Relation
 
 @Entity
 data class GrupoMarcador(
-    @Embedded val task: Marcador,
+    @Embedded val marcador: Marcador,
     @Relation(
-        parentColumn = "typeid",
-        entityColumn = "idType"
+        parentColumn = "id",
+        entityColumn = "idGrupo"
     )
-    val typelist: List<Grupo>
+    val grupoMarcadores: List<Grupo>
 )
