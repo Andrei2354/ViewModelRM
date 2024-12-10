@@ -6,8 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "marcador") //Por defecto usa el nombre user
 data class Marcador(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "titulo") val titulo: String,
-    @ColumnInfo(name = "descripcion") val descripcion: String,
-    val typeid: Int,
-    val isCompleted: Boolean = false )
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val titulo: String,
+    val sniped: String,
+    val CoordenadaY: Double,
+    val CoordenadaX: Double,
+    val isCompleted: Boolean = false
+)

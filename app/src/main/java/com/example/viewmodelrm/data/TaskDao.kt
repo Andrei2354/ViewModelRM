@@ -10,7 +10,7 @@ import androidx.room.Update
 
 @Dao
 interface TaskDao {
-    @Insert suspend fun insert()
-    @Insert suspend fun delete()
-    @Insert suspend fun update()
+    @Insert suspend fun insert(marcador: Marcador)
+    @Insert suspend fun delete(marcador: Marcador)
+    @Insert suspend fun update(marcador: Marcador)
 }
