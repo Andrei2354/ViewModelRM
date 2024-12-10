@@ -3,7 +3,6 @@ package com.example.viewmodelrm
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.example.viewmodelrm.data.AppDatabase
-import com.example.viewmodelrm.Pantalla
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -33,7 +32,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import org.osmdroid.tileprovider.tilesource.XYTileSource
 
 data class Tile(val x: Int, val y: Int, val zoomLevel: Int)
@@ -54,7 +52,7 @@ val GoogleSat = object : XYTileSource(
 }
 
 @Composable
-fun Pantallamapa(navController: NavHostController, database: AppDatabase) {
+fun Pantallamapa(database: AppDatabase) {
 
 
     TileSourceFactory.addTileSource(GoogleSat)

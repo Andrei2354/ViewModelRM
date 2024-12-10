@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         database = AppDatabase.getDatabase(this)
 
         setContent {
-            TaskApp(database)
+            Pantallamapa(database)
         }
     }
 }
