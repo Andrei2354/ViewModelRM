@@ -30,9 +30,16 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import org.osmdroid.tileprovider.tilesource.XYTileSource
+import com.example.viewmodelrm.data.GrupoMarcador
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.text.style.TextAlign
 
 data class Tile(val x: Int, val y: Int, val zoomLevel: Int)
 
@@ -53,17 +60,22 @@ val GoogleSat = object : XYTileSource(
 
 @Composable
 fun Pantallamapa(database: AppDatabase) {
+    val taskDao = database.taskDao()
+    val scope = rememberCoroutineScope()
+    var marcadores  by remember { mutableStateOf(listOf<GrupoMarcador>()) }
 
+    LaunchedEffect(Unit) {
+        scope.launch(Dispatchers.IO) {
+            marcadores = taskDao.getAllgrupoMarcador()
+        }
+    }
 
     TileSourceFactory.addTileSource(GoogleSat)
 
-    var marcador = rememberMarkerState(
-        geoPoint =  GeoPoint(29.141736, -13.507688)
-    )
 
     val cameraState = rememberCameraState {
-        geoPoint = GeoPoint(29.141736, -13.507688)
-        zoom = 17.0 // optional, default is 5.0
+        geoPoint = GeoPoint(28.992986562609960,  -13.495383991854991)
+        zoom = 15.0 // optional, default is 5.0
     }
 
     // define properties with remember with default value
@@ -85,23 +97,34 @@ fun Pantallamapa(database: AppDatabase) {
         cameraState = cameraState,
         properties = mapProperties // add properties
     ){
-        Marker(
-            state = marcador,
-            title = "IES Haría", // add title
-            snippet = "Clase DAM2" // add snippet
-        ){
-            Column(
-                modifier = Modifier
-                    .size(100.dp)
-                    .background(color = Color.Gray, shape = RoundedCornerShape(7.dp)),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // setup content of info window
-                Text(text = it.title)
-                Text(text = it.snippet, fontSize = 10.sp)
+        marcadores.forEach { elementos ->
+            var marcador = rememberMarkerState(
+                geoPoint =  GeoPoint(elementos.marcador.coordenadaX, elementos.marcador.coordenadaY)
+            )
+            var titulo = elementos.marcador.titulo
+            elementos.grupoMarcadores.forEach { elementogrupo ->
+                var snipe = elementogrupo.typeGrupo
+
+                Marker(
+                    state = marcador,
+                    title = titulo, // add title
+                    snippet = snipe // add snippet
+                ){
+                    Column(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .background(color = Color.Gray, shape = RoundedCornerShape(7.dp)),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // setup content of info window
+                        Text(text = it.title, textAlign = TextAlign.Center)
+                        Text(text = it.snippet, fontSize = 10.sp)
+                    }
+                }
             }
         }
+
     }
 }
 
