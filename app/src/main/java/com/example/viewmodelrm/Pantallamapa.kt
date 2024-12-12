@@ -101,6 +101,13 @@ fun Pantallamapa(database: AppDatabase) {
             var marcador = rememberMarkerState(
                 geoPoint =  GeoPoint(elementos.marcador.coordenadaX, elementos.marcador.coordenadaY)
             )
+
+            when (elementos.grupoMarcadores[0].idGrupo) {
+                1 -> icono = R.drawable.restaurante
+                2 -> icono = R.drawable.playa
+                3 -> icono = R.drawable.acuario
+                4 -> icono = R.drawable.parque
+            }
             var titulo = elementos.marcador.titulo
             elementos.grupoMarcadores.forEach { elementogrupo ->
                 var snipe = elementogrupo.typeGrupo
