@@ -39,7 +39,9 @@ import com.example.viewmodelrm.data.GrupoMarcador
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.core.content.ContextCompat
 
 data class Tile(val x: Int, val y: Int, val zoomLevel: Int)
 
@@ -101,12 +103,26 @@ fun Pantallamapa(database: AppDatabase) {
             var marcador = rememberMarkerState(
                 geoPoint =  GeoPoint(elementos.marcador.coordenadaX, elementos.marcador.coordenadaY)
             )
+            var icono by remember { mutableStateOf(R.drawable.restaurante) }
+            var color = Color.Unspecified
 
             when (elementos.grupoMarcadores[0].idGrupo) {
-                1 -> icono = R.drawable.restaurante
-                2 -> icono = R.drawable.playa
-                3 -> icono = R.drawable.acuario
-                4 -> icono = R.drawable.parque
+                1 -> {
+                    icono = R.drawable.restaurante
+                    color = Color.White
+                }
+                2 -> {
+                    icono = R.drawable.playa
+                    color = Color.Cyan
+                }
+                3 -> {
+                    icono = R.drawable.acuario
+                    color = Color.Blue
+                }
+                4 -> {
+                    icono = R.drawable.parque
+                    color = Color.Magenta
+                }
             }
             var titulo = elementos.marcador.titulo
             elementos.grupoMarcadores.forEach { elementogrupo ->
@@ -115,12 +131,13 @@ fun Pantallamapa(database: AppDatabase) {
                 Marker(
                     state = marcador,
                     title = titulo, // add title
-                    snippet = snipe // add snippet
+                    snippet = snipe, // add snippet
+                    icon = ContextCompat.getDrawable(LocalContext.current, icono)
                 ){
                     Column(
                         modifier = Modifier
-                            .size(100.dp)
-                            .background(color = Color.Gray, shape = RoundedCornerShape(7.dp)),
+                            .size(80.dp)
+                            .background(color = color, shape = RoundedCornerShape(7.dp)),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
