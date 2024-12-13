@@ -1,15 +1,10 @@
-package com.example.viewmodelrm
+package com.example.viewmodelrm.view
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import com.example.viewmodelrm.data.AppDatabase
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import com.example.viewmodelrm.ui.theme.ViewModelRMTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -31,6 +26,7 @@ import org.osmdroid.util.GeoPoint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -38,10 +34,11 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource
 import com.example.viewmodelrm.data.GrupoMarcador
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.content.ContextCompat
+import com.example.viewmodelrm.R
+import com.example.viewmodelrm.viewmodel.MarcadorViewModel
 
 data class Tile(val x: Int, val y: Int, val zoomLevel: Int)
 
@@ -61,16 +58,10 @@ val GoogleSat = object : XYTileSource(
 }
 
 @Composable
-fun Pantallamapa(database: AppDatabase) {
-    val taskDao = database.taskDao()
-    val scope = rememberCoroutineScope()
-    var marcadores  by remember { mutableStateOf(listOf<GrupoMarcador>()) }
+fun Pantallamapa(modifier: Modifier = Modifier, viewModel: MarcadorViewModel) {
 
-    LaunchedEffect(Unit) {
-        scope.launch(Dispatchers.IO) {
-            marcadores = taskDao.getAllgrupoMarcador()
-        }
-    }
+    val grupoMarcador by viewModel.grupoMarcador.collectAsState(initial = emptyList())
+
 
     TileSourceFactory.addTileSource(GoogleSat)
 
@@ -99,7 +90,7 @@ fun Pantallamapa(database: AppDatabase) {
         cameraState = cameraState,
         properties = mapProperties // add properties
     ){
-        marcadores.forEach { elementos ->
+        grupoMarcador.forEach { elementos ->
             var marcador = rememberMarkerState(
                 geoPoint =  GeoPoint(elementos.marcador.coordenadaX, elementos.marcador.coordenadaY)
             )
