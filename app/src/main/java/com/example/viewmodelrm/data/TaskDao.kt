@@ -5,11 +5,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface TaskDao {
-    @Transaction @Query("SELECT * FROM marcador") fun getAllgrupoMarcador(): List<GrupoMarcador>
+    @Transaction @Query("SELECT * FROM marcador") fun getAllgrupoMarcador(): Flow<List<GrupoMarcador>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMarcador(vararg  marcador: Marcador)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
