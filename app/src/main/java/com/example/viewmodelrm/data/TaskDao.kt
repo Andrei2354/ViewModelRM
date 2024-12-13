@@ -11,8 +11,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
     @Transaction @Query("SELECT * FROM marcador") fun getAllgrupoMarcador(): Flow<List<GrupoMarcador>>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insertMarcador(vararg  marcador: Marcador)
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insertGrupo(vararg grupo: Grupo)
+    @Query("SELECT * FROM types")
+    suspend fun getAllGrupos(): List<Grupo>
+
+    @Query("SELECT * FROM marcador")
+    suspend fun getAllMarcadores(): List<Marcador>
 }
